@@ -1,8 +1,76 @@
+# Python
 __pycache__/
-*.pyc
+*.py[codz]
+*$py.class
+
+# Virtual Environments
+.venv/
 venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment Variables
 .env
+.env.*
+
+# Django
 db.sqlite3
+db.sqlite3-journal
+local_settings.py
 staticfiles/
+media/
+
+# Logs
 *.log
+
+# Distribution / Packaging
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+*.egg
+
+# Testing / Coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.pytest_cache/
+.hypothesis/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS Files
 .DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints
+
+# Type Checkers
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Ruff
+.ruff_cache/
+
+# Cython
+cython_debug/
+
+# Streamlit
+.streamlit/secrets.toml  
