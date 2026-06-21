@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex justify-center pt-10">
+  <div class="glow-card w-full max-w-md p-8 text-center">
+    <h1 class="text-2xl font-bold text-success mb-2">Check your email</h1>
+    <p class="text-slate-400 text-sm">We've sent a verification link to <span class="text-primary">{{ email }}</span>. Click it to activate your account.</p>
+    <a href="{% url 'accounts:login' %}" class="text-secondary hover:text-primary text-sm mt-6 inline-block">Back to login</a>
+  </div>
+</div>
+{% endblock %}

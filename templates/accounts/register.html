@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Register · SecureAuth Enterprise{% endblock %}
+{% block content %}
+<div class="flex justify-center pt-10">
+  <div class="glow-card w-full max-w-md p-8">
+    <h1 class="text-2xl font-bold text-primary mb-1">Create Account</h1>
+    <p class="text-slate-400 text-sm mb-6">Join SecureAuth Enterprise</p>
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm mb-1 text-slate-300">Username</label>
+        {{ form.username }}
+        {% for err in form.username.errors %}<p class="text-danger text-xs mt-1">{{ err }}</p>{% endfor %}
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-slate-300">Email</label>
+        {{ form.email }}
+        {% for err in form.email.errors %}<p class="text-danger text-xs mt-1">{{ err }}</p>{% endfor %}
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-slate-300">Password</label>
+        {{ form.password }}
+        <p class="text-xs text-slate-500 mt-1">Min 12 characters, upper/lowercase, digit, and symbol.</p>
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-slate-300">Confirm Password</label>
+        {{ form.password_confirm }}
+      </div>
+      {% if form.non_field_errors %}<p class="text-danger text-sm">{{ form.non_field_errors }}</p>{% endif %}
+      <button type="submit" class="glow-btn w-full py-2.5 mt-2">Create Account</button>
+    </form>
+    <p class="text-sm text-slate-400 mt-6 text-center">
+      Already have an account? <a href="{% url 'accounts:login' %}" class="text-secondary hover:text-primary">Log in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

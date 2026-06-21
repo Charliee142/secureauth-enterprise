@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · SecureAuth Enterprise{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-primary mb-1">Welcome, {{ request.user.username }}</h1>
+<p class="text-slate-400 text-sm mb-8">Role: <span class="text-secondary">{{ role.name|default:"Unassigned" }}</span></p>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+  <div class="glow-card p-5">
+    <p class="text-xs text-slate-400">Active Sessions</p>
+    <p class="text-2xl font-bold text-primary">{{ active_sessions }}</p>
+  </div>
+  <div class="glow-card p-5">
+    <p class="text-xs text-slate-400">Failed Logins (24h)</p>
+    <p class="text-2xl font-bold text-warning">{{ failed_logins_24h }}</p>
+  </div>
+  <div class="glow-card p-5">
+    <p class="text-xs text-slate-400">Locked Accounts</p>
+    <p class="text-2xl font-bold text-danger">{{ locked_accounts }}</p>
+  </div>
+  <div class="glow-card p-5">
+    <p class="text-xs text-slate-400">Administrators</p>
+    <p class="text-2xl font-bold text-success">{{ admins }}</p>
+  </div>
+</div>
+
+<div class="glow-card p-6">
+  <h2 class="text-lg font-semibold mb-4 text-text">Recent Activity</h2>
+  <table class="w-full text-sm">
+    <thead class="text-slate-400 border-b border-cyan-900/30">
+      <tr><th class="text-left py-2">Event</th><th class="text-left py-2">User</th><th class="text-left py-2">Time</th></tr>
+    </thead>
+    <tbody>
+      {% for event in recent_events %}
+      <tr class="border-b border-cyan-900/10">
+        <td class="py-2">{{ event.get_event_type_display }}</td>
+        <td class="py-2 text-slate-400">{{ event.user|default:"—" }}</td>
+        <td class="py-2 text-slate-500">{{ event.created_at }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3" class="py-4 text-slate-500">No recent activity.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

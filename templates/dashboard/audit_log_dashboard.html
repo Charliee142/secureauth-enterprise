@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Audit Logs · SecureAuth Enterprise{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-primary mb-6">Audit Log Dashboard</h1>
+
+<form method="get" class="mb-4 flex gap-3">
+  <select name="event_type" class="bg-[#020817] border border-cyan-900/50 rounded text-sm px-3 py-2">
+    <option value="">All Events</option>
+    {% for code, label in event_choices %}
+      <option value="{{ code }}" {% if code == selected_event %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="glow-btn px-4 py-2 text-sm">Filter</button>
+</form>
+
+<div class="glow-card p-6 overflow-x-auto">
+  <table class="w-full text-sm">
+    <thead class="text-slate-400 border-b border-cyan-900/30">
+      <tr>
+        <th class="text-left py-2">Event</th>
+        <th class="text-left py-2">Subject</th>
+        <th class="text-left py-2">Actor</th>
+        <th class="text-left py-2">IP</th>
+        <th class="text-left py-2">Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in page_obj %}
+      <tr class="border-b border-cyan-900/10">
+        <td class="py-2">{{ log.get_event_type_display }}</td>
+        <td class="py-2 text-slate-400">{{ log.user|default:"—" }}</td>
+        <td class="py-2 text-slate-400">{{ log.actor|default:"—" }}</td>
+        <td class="py-2 text-slate-500">{{ log.ip_address|default:"—" }}</td>
+        <td class="py-2 text-slate-500">{{ log.created_at }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="py-4 text-slate-500">No audit events found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="flex justify-between mt-4 text-sm text-slate-400">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="text-secondary">← Previous</a>{% else %}<span></span>{% endif %}
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="text-secondary">Next →</a>{% else %}<span></span>{% endif %}
+  </div>
+</div>
+{% endblock %}

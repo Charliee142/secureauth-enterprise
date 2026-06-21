@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}SecureAuth Enterprise{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#020817',
+            card: '#071226',
+            primary: '#00D9FF',
+            secondary: '#0EA5E9',
+            success: '#22C55E',
+            warning: '#F59E0B',
+            danger: '#EF4444',
+            text: '#F8FAFC',
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { background-color: #020817; color: #F8FAFC; font-family: 'Inter', sans-serif; background-image: radial-gradient(circle at 1px 1px, rgba(0,217,255,0.08) 1px, transparent 0); background-size: 24px 24px; }
+    .glow-card { background-color: rgba(7,18,38,0.85); border: 1px solid rgba(0,217,255,0.25); border-radius: 1rem; box-shadow: 0 0 24px rgba(0,217,255,0.08); backdrop-filter: blur(8px); }
+    .glow-btn { background: linear-gradient(90deg, #00D9FF, #0EA5E9); color: #020817; font-weight: 600; border-radius: 0.5rem; transition: box-shadow .2s; }
+    .glow-btn:hover { box-shadow: 0 0 18px rgba(0,217,255,0.6); }
+    .nav-link { color: #94a3b8; }
+    .nav-link:hover { color: #00D9FF; }
+  </style>
+</head>
+<body class="min-h-screen">
+  {% if request.user.is_authenticated %}
+  <nav class="border-b border-cyan-900/40 bg-[#020817]/90 backdrop-blur sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="{% url 'dashboard:home' %}" class="text-primary font-bold text-lg">🔒 SecureAuth Enterprise</a>
+      <div class="flex items-center gap-6 text-sm">
+        <a class="nav-link" href="{% url 'dashboard:home' %}">Dashboard</a>
+        <a class="nav-link" href="{% url 'dashboard:user_management' %}">Users</a>
+        <a class="nav-link" href="{% url 'dashboard:security_dashboard' %}">Security</a>
+        <a class="nav-link" href="{% url 'dashboard:audit_log_dashboard' %}">Audit Logs</a>
+        <a class="nav-link" href="{% url 'accounts:password_change' %}">Change Password</a>
+        <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+      </div>
+    </div>
+  </nav>
+  {% endif %}
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+    {% if messages %}
+      <div class="mb-6 space-y-2">
+        {% for message in messages %}
+          <div class="glow-card px-4 py-3 text-sm {% if message.tags == 'error' %}border-danger text-danger{% elif message.tags == 'success' %}border-success text-success{% else %}text-text{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
